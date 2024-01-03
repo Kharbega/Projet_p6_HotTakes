@@ -1,13 +1,9 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const passwordValidator = require('password-validator');
-const { body } = require('express-validator');
-const { validationResult } = require("express-validator");
 
 
 exports.signup = (req, res, next) => {
-
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -19,10 +15,9 @@ exports.signup = (req, res, next) => {
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
         })
-        .catch(error => {
-            console.log(error);
+        .catch(error =>
             res.status(500).json({ error })
-        });
+        );
 };
 
 exports.login = (req, res, next) => {
@@ -45,15 +40,13 @@ exports.login = (req, res, next) => {
                         )
                     });
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(error =>
                     res.status(500).json({ error })
-                });
+                );
         })
-        .catch(error => {
-            console.log(error)
+        .catch(error =>
             res.status(500).json({ error })
-        });
+        );
 };
 
 
